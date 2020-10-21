@@ -1,0 +1,16 @@
+.info{
+  /*padding:.5rem 1rem;
+  border:2px solid #ccc;
+  color:red;
+  border-radius:5px;
+  margin-bottom:.5rem;*/
+  display: grid;
+  grid-template-columns: 3fr 4fr 1fr 3fr
+}
+
+.img{
+    border-radius: 80%;
+    width: 150px;
+    height: 150px;
+    border:1px solid #ccc;
+}

@@ -1,0 +1,16 @@
+.heder{
+    grid-area: header;
+    background-color:#1E90FF;
+}
+    
+.heder img{
+    width: 150px;
+    
+}
+
+.login{
+    position: absolute;
+    color: black;
+    top: 1em;
+    right: 23em;
+}
