@@ -2,7 +2,8 @@ import { userAPI, profileAPI } from "../api/api";
 
 const ADD_POST='ADD-POST',
 SET_USERS_POST='SET_USERS_POST',
-SET_STATUS='SET_STATUS';
+SET_STATUS='SET_STATUS',
+SAVE_PHOTO_SUCCESS='SAVE_PHOTO_SUCCESS';
 
 let initionalState = {
     posts:[
@@ -49,6 +50,7 @@ export const AddPostActionCreator=(addPost)=> ({ type:ADD_POST, addPost });
 //export const UpdateNewPostActionCreator=(text)=>({type:UPDATE_NEW_POST_TEXT, newText:text});
 export const setUsersPosts =(post) =>({type:SET_USERS_POST, post});
 export const setStatus=(status)=>({type:SET_STATUS, status:status});
+export const savePhotoSuccess=(photos)=>({type:SAVE_PHOTO_SUCCESS, photos});
 
 export const setUserId = (userId) =>async(dispatch) =>{
     let data = await userAPI.getProfile(userId);
@@ -63,5 +65,9 @@ export const getStatus = (userId) => async(dispatch) =>{
 export const updateStatus = (status) =>async(dispatch) =>{
     let data = await profileAPI.updateStatus(status);
             dispatch(setStatus(status));
+}
+export const savePhoto = (file)=>async(dispatch)=>{
+    let response = await profileAPI.savePhoto(file);
+            dispatch(savePhotoSuccess(response.data.photos));
 }
 export default postPageReducer;

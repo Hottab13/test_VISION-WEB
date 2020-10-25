@@ -9,6 +9,8 @@ const Profile = (props)=>{
     return(
     <div className={classes.content}>
         <PostInfo 
+        savePhoto={props.savePhoto}
+        isOwner={props.isOwner}
         postUser={props.postUser} 
         status={props.status}
         updateStatus={props.updateStatus}/>

@@ -2,21 +2,27 @@ import React from "react";
 import classes from './PostInfo.module.css';
 import Loader from "../../Loader";
 import frontPhoto from "../../../assets/images/frontPhoto.jpg";
-import PostStatusWithHooks from "./PostStatusWithHooks"
+import PostStatusWithHooks from "./PostStatusWithHooks";
+import ava from "../../../assets/images/ava.png";
 
-const PostInfo = (props)=>{
+const PostInfo = ({savePhoto,...props})=>{
     
     if(!props.postUser){
         return <Loader/>
     }
     let contact = props.postUser.contacts;
-   
+    const onMainPhotoAva =(e)=>{
+        if(e.target.files.length){
+           savePhoto(e.target.files[0]);
+        }
+    } 
     return(
         <div>
         <img src={frontPhoto}/>
         <div className={classes.info}>
             <div className={classes.img}>
-                <img src={props.postUser.photos.large}/>
+                <img src={props.postUser.photos.large || ava}/>
+                {props.isOwner? <input type={"file"} onChange={onMainPhotoAva}/> : '' }
             </div>
             <div>
                 <div><h3>{props.postUser.fullName}</h3></div>

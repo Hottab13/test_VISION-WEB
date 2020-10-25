@@ -45,5 +45,14 @@ export const profileAPI= {//получить всех юзеров
     },
     updateStatus(status){//обновить статус
         return instance.put(`/profile/status`,{status:status});
+    },
+    savePhoto(photos){
+        const formData = new FormData();
+        formData.append("imige",photos)
+        return instance.put(`/profile/photo`,formData,{
+            headers:{
+                'Content-Type': 'multipart/form-data'
+            }
+        });
     }
 };

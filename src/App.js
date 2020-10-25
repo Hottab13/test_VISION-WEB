@@ -3,7 +3,7 @@ import "./App.css";
 import Navbar from "./components/Navbar/Navbar";
 import Frends from "./components/Frends/Frends";
 import Settings from "./components/Settings/Settings";
-import {BrowserRouter, Route, withRouter} from "react-router-dom";
+import {BrowserRouter, HashRouter, Route, withRouter} from "react-router-dom";
 import DialogsContainer from "./components/Dialogs/DialogsContainer";
 import UsersContianer from "./components/Users/UsersContianer";
 import ProfileContainer from "./components/Profile/ProfileConainer";
@@ -50,12 +50,12 @@ const AppConteiner= compose(
 withRouter,
 connect(mapStateToProps,{initiolizeApp}))
 (App); 
-
+//basename={process.env.PUBLIC_URL}
 const MainApp=(props)=>{  
-  return <BrowserRouter>
+  return <HashRouter >
       <Provider store={store}>
         <AppConteiner />
       </Provider>
-      </BrowserRouter>
+      </HashRouter>
 }
 export default MainApp;
