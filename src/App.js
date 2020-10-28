@@ -3,7 +3,7 @@ import "./App.css";
 import Navbar from "./components/Navbar/Navbar";
 import Frends from "./components/Frends/Frends";
 import Settings from "./components/Settings/Settings";
-import {BrowserRouter, HashRouter, Route, withRouter} from "react-router-dom";
+import { HashRouter, Route, Switch, withRouter} from "react-router-dom";
 import DialogsContainer from "./components/Dialogs/DialogsContainer";
 import UsersContianer from "./components/Users/UsersContianer";
 import ProfileContainer from "./components/Profile/ProfileConainer";
@@ -28,6 +28,9 @@ class App extends Component {
       <HeaderConteiner/>
       <Navbar/>
       <div className='app-vrapper-content'>
+       <Switch>
+        <Route exact path='/' 
+          render={()=><ProfileContainer/>}/>
         <Route path='/dialogs' 
           render={()=><DialogsContainer/>}/>
         <Route path='/profile/:userId?' 
@@ -38,6 +41,9 @@ class App extends Component {
           render={ ()=> <UsersContianer/> } />
         <Route path='/login' 
           render={ ()=> <Login/> } />
+        <Route path='*' 
+          render={ ()=> <div>404</div> } />
+          </Switch> 
       </div>
     </div>
   )}
@@ -51,7 +57,7 @@ withRouter,
 connect(mapStateToProps,{initiolizeApp}))
 (App); 
 //basename={process.env.PUBLIC_URL}
-const MainApp=(props)=>{  
+const MainApp=()=>{  
   return <HashRouter >
       <Provider store={store}>
         <AppConteiner />

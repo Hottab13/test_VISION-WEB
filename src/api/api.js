@@ -28,8 +28,8 @@ export const userAPI= {//получить всех юзеров
     getLogin () {//логиниться, получить мои данные профиля
         return instance.get(`auth/me`);
     },
-    getAuthLogin (email,password,rememberMe= false ) {//отправить логин с паролем
-        return instance.post(`auth/login`, {email,password,rememberMe });
+    getAuthLogin (email,password,rememberMe= false,captcha=null ) {//отправить логин с паролем
+        return instance.post(`auth/login`, {email,password,rememberMe,captcha });
     },
     logout () {//отправить логин с паролем
         return instance.delete(`auth/login`);
@@ -41,18 +41,26 @@ export const profileAPI= {//получить всех юзеров
         return instance.get(`profile/${userId}`);
     },
     getStatus(userId){//загрузить статус
-        return instance.get(`/profile/status/`+userId);
+        return instance.get(`profile/status/`+userId);
     },
     updateStatus(status){//обновить статус
-        return instance.put(`/profile/status`,{status:status});
+        return instance.put(`profile/status`,{status:status});
+    },
+    saveProfile(fileProfile){//обновить статус
+        return instance.put(`profile`,fileProfile);
     },
     savePhoto(photos){
         const formData = new FormData();
         formData.append("imige",photos)
-        return instance.put(`/profile/photo`,formData,{
+        return instance.put(`profile/photo`,formData,{
             headers:{
                 'Content-Type': 'multipart/form-data'
             }
         });
+    }
+};
+export const securityAPI= {//получить всех юзеров
+    getCaptcha () {//загрузить данные профиля пользователя
+        return instance.get(`/security/get-captcha-url`);
     }
 };

@@ -8,14 +8,15 @@ const Profile = (props)=>{
 
     return(
     <div className={classes.content}>
-        <PostInfo 
+        <PostInfo
+        saveProfile={props.saveProfile} 
+        isLoader={props.isLoader}
         savePhoto={props.savePhoto}
         isOwner={props.isOwner}
         postUser={props.postUser} 
         status={props.status}
         updateStatus={props.updateStatus}/>
         <MyPostsConainer /> 
-        
     </div>
     );
 }
