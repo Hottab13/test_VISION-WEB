@@ -1,8 +1,7 @@
-import React from "react";
-import MyPosts from "./MyPosts";
-import { AddPostActionCreator } from "../../../redux/PostPageReducer";
-import { connect } from "react-redux";
-import { compose } from "redux";
+import MyPosts from "./MyPosts"
+import { connect } from "react-redux"
+import { compose } from "redux"
+import { action } from "../../../redux/PostPageReducer"
 
 /*const MyPostsConainer = ()=>{
     return (
@@ -43,7 +42,7 @@ let mapDispatchToProps = (dispatch) =>{
       },*/
       ADD_POST: (addPost) =>{
         //debugger
-        dispatch(AddPostActionCreator(addPost));
+        dispatch(action.AddPostActionCreator(addPost));
       }
   }
 }

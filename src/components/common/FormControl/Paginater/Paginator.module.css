@@ -5,3 +5,7 @@
 .pagination{
   left: 50%
 }
+.pageNumber{
+  padding: 10px;
+  border:1px solid red;
+}

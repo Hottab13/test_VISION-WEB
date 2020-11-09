@@ -1,9 +1,9 @@
 import React from "react";
 import Profile from "./Profile";
 import { connect } from "react-redux";
-import { setUserId,getStatus,updateStatus, savePhoto, saveProfile } from "../../redux/PostPageReducer";
+import { setUserId,getStatus,updateStatus, savePhoto, saveProfile } from "../../redux/PostPageReducer.ts";
 import { withRouter } from "react-router-dom";
-import { withAuthRedirectComponents } from "../hoc/withAuthRedirect";
+import { withAuthRedirectComponents } from "../hoc/withAuthRedirect.tsx";
 import { compose } from "redux";
 
 class ProfileContainer extends React.Component {// подгрузка профиля

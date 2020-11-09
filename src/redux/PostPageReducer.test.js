@@ -1,4 +1,4 @@
-import postPageReducer, { AddPostActionCreator } from "./PostPageReducer";
+import postPageReducer, { AddPostActionCreator } from "./PostPageReducer.ts";
 import React from 'react';
 
 let state = {

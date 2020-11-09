@@ -2,7 +2,7 @@ import * as serviceWorker from './serviceWorker';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
-import MainApp from './App';
+import MainApp from './App.tsx';
 
 ReactDOM.render(<MainApp/>,document.getElementById('root'));
 //rerenderEntireTree();
