@@ -4,12 +4,10 @@
   grid-template-areas:
   "post post post butt";
   padding:.5rem 1rem;
-  color:green;
   border:2px solid ;
   border-radius:5px;
   margin-bottom:.5rem;
   border:2px solid #ccc;
-  
   grid-template-columns: 21fr 2fr;
     }
 
