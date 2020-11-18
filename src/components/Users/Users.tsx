@@ -38,64 +38,56 @@ const onFilterCheang=(filter:FilterType)=>{
 }
 //className={classes.users}
     return (
-        <div >
-        <UserSearchForm onFilterCheang={onFilterCheang}/>
-            
-            <div style={{marginTop:"50px"}}>
-                <Row gutter={[16, { xs: 8, sm: 16, md: 24, lg: 32 }]}>
-                
-            {users.map(u=>
+<div >
+    <UserSearchForm onFilterCheang={onFilterCheang}/>
+    <div style={{marginTop:"50px"}}>
+        <Row gutter={[16, { xs: 8, sm: 16, md: 24, lg: 32 }]}>
+            {users.map(u=> 
                 <Col span={6}>
-                <div key={u.id} >
-                            <Row>
+                    <div key={u.id} >
+                        <Row>
                             <Col span={8}> 
-                            <div>
-                            <NavLink to={`profile/` +u.id}>
-                            <Avatar style={{backgroundColor: "#87d068" }} size={{ xs: 24, sm: 32, md: 40, lg: 64, xl: 80, xxl: 100 }} src={u.photos.small !=null ? u.photos.small:
-                                 <AntDesignOutlined /> }/> 
-                            </NavLink>
-                             </div>
-                             <div style={{marginTop:"20px"}}>
-                            {u.followed 
-                            ? <Button  disabled={followingInProgress.some(id =>id===u.id) }
-                             onClick={()=> {unfollowinFC(u.id)}
-                            } >Отписаться</Button >
-                            : <Button type="primary" disabled={followingInProgress.some(id =>id===u.id)}
-                             onClick={()=> {followingFC(u.id)}
-                            }>Подписаться</Button>}
-                            </div>
-                             </Col>
-
-                            <Col span={16}> 
-                            <div >
-                            <h3>{u.name}</h3>
-                            <h6> {u.status? "Статус: "+u.status: 'Статус: '}</h6>
-                            </div>
+                                <div  >
+                                    <NavLink to={`profile/` +u.id}>
+                                    <Avatar style={{backgroundColor: "#87d068" }} 
+                                            size={{ xs: 24, sm: 32, md: 40, lg: 64, xl: 80, xxl: 100 }} 
+                                            src={u.photos.small !=null ? u.photos.small:
+                                    <AntDesignOutlined /> }/> 
+                                    </NavLink>
+                                </div>
+                                <div   style={{marginTop:"20px"} }>
+                                    {u.followed ?
+                                    <Button  disabled={followingInProgress.some(id =>id===u.id) }
+                                            onClick={()=> {unfollowinFC(u.id)}}>Отписаться
+                                    </Button >
+                                    :<Button type="primary" disabled={followingInProgress.some(id =>id===u.id)}
+                                            onClick={()=> {followingFC(u.id)}}>Подписаться
+                                    </Button>}
+                                </div>
                             </Col>
-                            
-                            
-                            
-                            </Row>
-                </div>
-                 </Col>
+                            <Col span={16}> 
+                                <div >
+                                    <h3>{u.name}</h3>
+                                    <h6> {u.status? "Статус: "+u.status: 'Статус: '}</h6>
+                                </div>
 
-                )
-            }
-            
-            </Row>
-
-            </div>
-            <Row justify="space-around" align="middle">
-            <Col span={12}>
+                            </Col>
+                        </Row>
+                    </div>
+                </Col>
+            )} 
+        </Row>
+    </div>
+    <Row justify="space-around" align="middle">
+        <Col span={12}>
             <Paginator totalUsersCount={totalUsersCount} 
             pageSaze={pageSaze} 
             currentPage={currentPage} 
             onPageChange={onPageChange} />
-            </Col>
-            </Row>
-        </div>
-        )  
-}
+        </Col>
+    </Row>
+</div>
+) }
 
 const userSearchFormValidate=(values:any)=>{
     const errors = {}

@@ -4,7 +4,7 @@ import 'antd/dist/antd.css';
 //import Navbar from "./components/Navbar/Navbar"
 import Frends from "./components/Frends/Frends"
 import Settings from "./components/Settings/Settings"
-import { BrowserRouter, Link, Route, Switch, withRouter} from "react-router-dom"
+import { BrowserRouter, HashRouter, Link, Route, Switch, withRouter} from "react-router-dom"
 import DialogsContainer from "./components/Dialogs/DialogsContainer"
 import ProfileContainer from "./components/Profile/ProfileConainer"
 //import HeaderConteiner from "./components/Haeder/HeaderConteiner"
@@ -15,7 +15,7 @@ import Loader from "./components/Loader"
 import store, { AppStateType } from "./redux/ReduxStore"
 import { UserPage } from "./components/Users/UsersContianer"
 import { Login } from "./components/Login/Login"
-import { Layout, Menu, Breadcrumb } from 'antd';
+import { Layout, Menu, Breadcrumb, Row, Col } from 'antd';
 import { UserOutlined, LaptopOutlined, NotificationOutlined } from '@ant-design/icons';
 import { HeaderCont } from "./components/Haeder/Header";
 
@@ -108,11 +108,11 @@ const AppConteiner= compose<React.ComponentType>(
   connect(null,null))(App)
   //basename={process.env.PUBLIC_URL}
 export const MainApp:React.FC=()=>{  
-    return <BrowserRouter >
+    return <HashRouter >
         <Provider store={store}>
           <AppConteiner />
         </Provider>
-        </BrowserRouter>
+        </HashRouter>
   }
 
 export default MainApp

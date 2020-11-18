@@ -63,27 +63,27 @@ const LoginForm:React.FC<InjectedFormProps<LoginFormValueType,LoginFormOwnProps>
       >
         <form onSubmit={handleSubmit}>
         
-        <Form.Item label="Username" rules={[{ required: true, message: 'Please input your username!' }]}>
+        <FormItem label="Username" rules={[{ required: true, message: 'Please input your username!' }]}>
             {createField<LoginFormValueTypeKey>("Login","login",[requiredField, maxLenght],NewInput)}
-        </Form.Item>
-        <Form.Item label="Password" rules={[{ required: true, message: 'Please input your password!' }]}>
+        </FormItem>
+        <FormItem label="Password" rules={[{ required: true, message: 'Please input your password!' }]}>
             {createField<LoginFormValueTypeKey>("Password","pass",[requiredField, maxLenght],NewInputPass,{type:"password"})}
-        </Form.Item>
-        <Form.Item {...tailLayout} name="remember" valuePropName="checked"> {/*createField<LoginFormValueTypeKey>(undefined,"remember_me",[],NewCheckbox,{type:"checkbox"}, "Remember me")*/}
+        </FormItem>
+        <FormItem {...tailLayout} name="remember_me" valuePropName="checked"> {/*createField<LoginFormValueTypeKey>(undefined,"remember_me",[],NewCheckbox,{type:"checkbox"}, "Remember me")*/}
             {createField<LoginFormValueTypeKey>(undefined,"remember_me",[],NewCheckbox,{type:"checkbox"})}
-        </Form.Item>
-            {error &&<div className={style.formSummaryError}>{error}</div>}
+        </FormItem>
+        <FormItem {...tailLayout}>{error &&<div className={style.formSummaryError}>{error}</div>}</FormItem>
            
-            <div>
+            <FormItem {...tailLayout} >
                 {captchaUrl && <img src={captchaUrl}/>}
                 {captchaUrl && createField<LoginFormValueTypeKey>("Введите код с картинки","captcha",[],InputControl)}
-            </div>
+                </FormItem>
             
             <div>
-            <Form.Item {...tailLayout}>
+            <FormItem {...tailLayout}>
             {/*<button>Login</button>*/}
             <Button type="primary" htmlType="submit">Login</Button>
-                </Form.Item>
+                </FormItem>
             </div>
             
         </form>
@@ -116,7 +116,6 @@ const dispatch = useDispatch()
     }
     return (
         <div>
-            <h1>Login</h1>
            <LoginReduxForm onSubmit={onSubmit} captchaUrl={captchaUrl}/>
         </div>
     )

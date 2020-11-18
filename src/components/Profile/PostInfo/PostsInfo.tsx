@@ -50,10 +50,9 @@ const PostInfo:React.FC<PropsType> = ({isOwner,saveProfile,savePhoto,updateStatu
     }*/
     const props = {
         onChange(info:any) {
-            console.log(info)
+            //console.log(info)
           if (info.file.status !== 'uploading') {
-            console.log(info.file, info.fileList);
-            
+            //console.log(info.file, info.fileList);
           }
           if (info.file.status === 'done') {
             savePhoto(info.fileList[0].originFileObj)
@@ -63,6 +62,7 @@ const PostInfo:React.FC<PropsType> = ({isOwner,saveProfile,savePhoto,updateStatu
           }
         },
       }
+
 return(
 <div>
     <div>
@@ -104,11 +104,13 @@ return(
             {/*isOwner ? <div><button onClick={()=>setEditMode(true)}>Редактировать</button></div> : null*/}
         </div>
         
-        <div>
+        
+
+        
          {isOwner? <Upload {...props}>
          <Button size="small" icon={<UploadOutlined />}>Загрузить фото</Button>
          </Upload>  : null }
-        </div>
+        
         </Col>
         <Col span={16}>
         <div>

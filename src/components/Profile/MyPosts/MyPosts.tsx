@@ -15,6 +15,10 @@ import { Input,Form, Button } from 'antd';
 const FormItem = Form.Item;
 const { TextArea } = Input;
 
+const tailLayout = {
+    wrapperCol: { offset: 0, span: 14 },
+  };
+
 
 
 export type MapPropsType={
@@ -27,28 +31,25 @@ export type DispatchPropsType={
 type PropsType={}
 
 const maxLenght = maxLengthCreator(1000)
+
 const NewInput = ({
     ...rest
 }) => {
 return (
 <FormItem>
-<TextArea rows={4} {...rest.input} />
+<TextArea showCount maxLength={1000} rows={4} {...rest.input} />
 </FormItem>);
 };
 
-   
-
 const MyPostForm:React.FC<InjectedFormProps<MyPostsFormValueType,PropsType>& PropsType> =(props)=>{
     return(
+<div style={{marginTop:"60px"}}  >
     <form onSubmit={props.handleSubmit}>
-            {createField<MyPostsFormValueTypeKey >("Введите ваш текст","newPosts",[requiredField, maxLenght],NewInput)}
-        <div className={classes.button}>
-            {/*<NewButton > Добавить пост</NewButton>*/}
-            <button> Добавить пост</button>
-        </div>
+    <Form.Item {...tailLayout}>{createField<MyPostsFormValueTypeKey >("Введите ваш текст","newPosts",[requiredField, maxLenght],NewInput)}</Form.Item>
+        <Form.Item {...tailLayout}><Button type="primary" htmlType="submit">Добавить пост</Button></Form.Item>
     </form>
- )
-}
+</div>
+)}
 
 type MyPostsFormValueType={
     newPosts:string
