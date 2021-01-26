@@ -1,16 +1,15 @@
-import React from 'react'
-import { connect, useDispatch, useSelector } from 'react-redux'
-import { Redirect } from 'react-router-dom'
-import { InjectedFormProps, reduxForm } from 'redux-form'
-import { loginUser} from '../../redux/AuthReducer'
-import {createField, InputControl} from '../common/FormControl/FormControl'
-import { maxLengthCreator, requiredField } from '../utils/validators'
-import style from '../common/FormControl//FormControl.module.css'
-import { AppStateType } from '../../redux/ReduxStore'
-//import { Col, Row } from 'antd'
-/*************************************** */
-import { Form, Input, Button, Checkbox } from 'antd';
+import React from "react";
+import { useDispatch } from "react-redux";
+//import { Redirect } from "react-router-dom";
+import { Field, InjectedFormProps, reduxForm } from "redux-form";
+import { loginUser } from "../../redux/AuthReducer";
+import { makeField } from "../common/FormControl/FormControl";
+import { maxLengthCreator, requiredField } from "../utils/validators";
+//import { AppStateType } from '../../redux/ReduxStore'
+
+import { Form, Input, Button } from "antd";
 const FormItem = Form.Item;
+const AInput = makeField(Input);
 
 const layout = {
   labelCol: { span: 8 },
@@ -20,121 +19,57 @@ const tailLayout = {
   wrapperCol: { offset: 8, span: 6 },
 };
 
-/************************************************* */
-const NewInput = ({
-    ...rest
-}) => {
-return (
-<FormItem>
-<Input rows={4} {...rest.input} />
-</FormItem>);
-};
-const NewInputPass = ({
-    ...rest
-}) => {
-return (
-<FormItem>
-<Input.Password rows={4} {...rest.input} />
-</FormItem>);
-};
-const NewCheckbox = ({
-    ...rest
-}) => {
-return (
-<FormItem>
-<Checkbox  {...rest.input}>Remember me</Checkbox>
-</FormItem>);
-};
-
-type LoginFormOwnProps={
-    captchaUrl:string |null
-}
-const maxLenght = maxLengthCreator(30)
-const LoginForm:React.FC<InjectedFormProps<LoginFormValueType,LoginFormOwnProps>& LoginFormOwnProps> =({handleSubmit, error, captchaUrl }) =>{
-    return (<div>
-        {/*<Row justify="space-around" align="middle">
-        <Col span={4}></Col>
-    <Col span={10}>*/}
-
-            <Form
-        {...layout}
-        name="basic"
-        initialValues={{ remember: true }}
-      >
-        <form onSubmit={handleSubmit}>
-        
-        <FormItem label="Username" rules={[{ required: true, message: 'Please input your username!' }]}>
-            {createField<LoginFormValueTypeKey>("Login","login",[requiredField, maxLenght],NewInput)}
+type LoginFormOwnProps = {};
+const maxLenght = maxLengthCreator(30);
+const LoginForm: React.FC<
+  InjectedFormProps<LoginFormValueType, LoginFormOwnProps> & LoginFormOwnProps
+> = ({ handleSubmit, error }) => {
+  return (
+    <Form {...layout}>
+      <form onSubmit={handleSubmit}>
+        <Field
+          label="Username"
+          name="login"
+          component={AInput}
+          placeholder="Login"
+          validate={[requiredField, maxLenght]}
+          hasFeedback
+          validateStatus="success"
+        />
+        <Field
+          label="Password"
+          name="pass"
+          component={AInput}
+          placeholder="Password"
+          validate={[requiredField, maxLenght]}
+          hasFeedback
+          validateStatus="success"
+          type="password"
+        />
+        <FormItem {...tailLayout}>
+          <Button type="primary" htmlType="submit">
+            Login
+          </Button>
         </FormItem>
-        <FormItem label="Password" rules={[{ required: true, message: 'Please input your password!' }]}>
-            {createField<LoginFormValueTypeKey>("Password","pass",[requiredField, maxLenght],NewInputPass,{type:"password"})}
-        </FormItem>
-        <FormItem {...tailLayout} name="remember_me" valuePropName="checked"> {/*createField<LoginFormValueTypeKey>(undefined,"remember_me",[],NewCheckbox,{type:"checkbox"}, "Remember me")*/}
-            {createField<LoginFormValueTypeKey>(undefined,"remember_me",[],NewCheckbox,{type:"checkbox"})}
-        </FormItem>
-        <FormItem {...tailLayout}>{error &&<div className={style.formSummaryError}>{error}</div>}</FormItem>
-           
-            <FormItem {...tailLayout} >
-                {captchaUrl && <img src={captchaUrl}/>}
-                {captchaUrl && createField<LoginFormValueTypeKey>("Введите код с картинки","captcha",[],InputControl)}
-                </FormItem>
-            
-            <div>
-            <FormItem {...tailLayout}>
-            {/*<button>Login</button>*/}
-            <Button type="primary" htmlType="submit">Login</Button>
-                </FormItem>
-            </div>
-            
-        </form>
-        </Form>
-        {/*</Col>
-        <Col span={4}></Col>
-        </Row>*/}
-        </div>)
-}
-const LoginReduxForm = reduxForm<LoginFormValueType,LoginFormOwnProps>({form:'login'})(LoginForm);
-type LoginFormValueType ={
-    captcha:string 
-    remember_me:boolean
-    pass:string 
-    login:string 
-}
-type LoginFormValueTypeKey= Extract< keyof LoginFormValueType,string>
-
-export const Login:React.FC =() =>{
-
-const isAuth = useSelector((state:AppStateType)=>state.auth.isAuth)
-const captchaUrl = useSelector((state:AppStateType)=>state.auth.captchaUrl)
-const dispatch = useDispatch() 
-
-    const onSubmit = (value:LoginFormValueType )=>{
-        dispatch(loginUser(value.login,value.pass, value.remember_me, value.captcha) )
-    }
-    if(isAuth){
+      </form>
+    </Form>
+  );
+};
+const LoginReduxForm = reduxForm<LoginFormValueType, LoginFormOwnProps>({
+  form: "login",
+})(LoginForm);
+type LoginFormValueType = {
+  login: string;
+  pass: string;
+};
+export const Login: React.FC = () => {
+  //const isAuth = useSelector((state:AppStateType)=>state.auth.isAuth)
+  const dispatch = useDispatch();
+  const onSubmit = (value: LoginFormValueType) => {
+    dispatch(loginUser(value.login, value.pass));
+  };
+  /* if(isAuth){
         return <Redirect to={"/profile"}/>
-    }
-    return (
-        <div>
-           <LoginReduxForm onSubmit={onSubmit} captchaUrl={captchaUrl}/>
-        </div>
-    )
-}
-//export default  connect(null,{loginUser})(Login)
-/***********************************************************************/
-/*let mapDispatchToProps = (dispatch) =>{
-    return{
-         GET_REDUX_LOGIN: (login,pass,remember) =>{
-            dispatch(GetReduxCreator(login,pass,remember)); 
-        }
-    }
-}*/
-
-/*type MapDispatchPropsType = {
-    loginUser:(email:string ,password:string ,rememberMe:boolean,captcha:string | null)=>void
-}
-type MapStatePropsType = {
-    isAuth:boolean
-    captchaUrl:string | null
-}
-type PropsType = MapDispatchPropsType &MapDispatchPropsType*/
+    }*/
+  return <LoginReduxForm onSubmit={onSubmit} />;
+};

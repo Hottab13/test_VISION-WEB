@@ -1,5 +1,5 @@
 import { InferActionType, BaseThunkActionType } from './ReduxStore';
-import { setAuthUser } from "./AuthReducer";
+//import { setAuthUser } from "./AuthReducer";
 import { FormAction } from 'redux-form';
 
 
@@ -29,13 +29,13 @@ const actions={
 
 export const initiolizeApp = () =>{
     return (dispatch:any) =>{
-       let promise = dispatch(setAuthUser()); 
+       //let promise = dispatch(setAuthUser()); 
         //dispatch
         //dispatch
-        Promise.all([promise])
+      /*  Promise.all([promise])
         .then(()=>{
             dispatch(actions.initionalizedSuccess())
-        })
+        })*/
     }   
 }
 export default appReducer

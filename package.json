@@ -1,6 +1,6 @@
 {
-  "name": "project_01",
-  "homepage": " https://hottab13.github.io/alekseev/",
+  "name": "test_VISION-WEB",
+  "homepage": " ",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
@@ -21,6 +21,7 @@
     "formik": "^2.2.4",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
+    "react-grid-system": "^7.1.1",
     "react-redux": "^7.2.0",
     "react-router-dom": "^5.2.0",
     "react-scripts": "3.4.1",

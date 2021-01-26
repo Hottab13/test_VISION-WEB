@@ -1,105 +1,129 @@
 import { stopSubmit } from "redux-form"
-import { userAPI, securityAPI, ResultCodeEnum  } from "../api/api"
+import { authAPI  } from "../api/api.js"
 import { InferActionType, BaseThunkActionType } from './ReduxStore';
 
-type ActionType = InferActionType<typeof actions>
-export type initionalStateType = typeof initionalState
-type ThunkActionType = BaseThunkActionType<ActionType | ReturnType<typeof stopSubmit>>
+type ActionType = InferActionType<typeof actions>;
+export type initionalStateType = typeof initionalState;
+type ThunkActionType = BaseThunkActionType<
+  ActionType | ReturnType<typeof stopSubmit>
+>;
 
 let initionalState = {
-    userId:null as number | null,
-    login:null as string | null,
+    client_id:null as string | null,
+    invited_by:null as string | null,
+    name:null as string | null,
+    phone:null as string | null,
+    surname:null as string | null,
     email:null as string | null,
+    is_active:false,
+    is_signup:false,
     isFetching:false,
-    isAuth:false,
-    captchaUrl:null as string | null
+    isAuth:false
 }
 
-const authReducer=(state=initionalState,action:ActionType):initionalStateType=> {
-    switch (action.type){
-        case "GET_CAPTCHS_SUCCESS":
-        case "SET_USER_DATA":
-            return {
-                ...state,
-                ...action.payload,
-                //isAuth:true
-            }   
-            default:
-            return state;
-    }
-}
+const authReducer = (
+  state = initionalState,
+  action: ActionType
+): initionalStateType => {
+  switch (action.type) {
+    case "SET_USER_DATA":
+      return {
+        ...state,
+        ...action.payload,
+      };
+    default:
+      return state;
+  }
+};
 
-const actions={
-    setAuthUserData:(userId:number | null,login:string | null,email:string | null,isAuth:boolean)=> ({type:"SET_USER_DATA", 
-        payload:{userId,login,email,isAuth}} as const),
-    getCaptchaSuccess:(captchaUrl:string)=> ({type:"GET_CAPTCHS_SUCCESS", payload:{captchaUrl}} as const)
-}
+const actions = {
+  setAuthUserData: (
+    client_id: string | null,
+    invited_by: string | null,
+    name: string | null,
+    phone: string | null,
+    surname: string | null,
+    email: string | null,
+    is_active: boolean,
+    is_signup: boolean
+  ) =>
+    ({
+      type: "SET_USER_DATA",
+      payload: {
+        client_id,
+        invited_by,
+        name,
+        phone,
+        surname,
+        email,
+        is_active,
+        is_signup,
+      },
+    } as const),
+};
 
-export const setAuthUser = ():ThunkActionType => async (dispatch) =>{
+/*export const setAuthUser = ():ThunkActionType => async (dispatch) =>{
     let respons= await  userAPI.getLogin()
-    if(respons.resultCode === ResultCodeEnum.Success){
+    if(respons.resultCode === 200){
         let {id,login,email} = respons.data
         dispatch(actions.setAuthUserData(id,login,email, true))
     }
-}
-export const loginUser = (email:string ,password:string ,rememberMe:boolean,captcha:string | null):ThunkActionType=> 
+}*/
+export const signupUser = (
+  email: string,
+  password: string,
+  phone: string,
+  name: string,
+  surname: string
+): ThunkActionType => async (dispatch, getState) => {
+  const respons = await authAPI.getAuthCreate(
+    email,
+    password,
+    phone,
+    name,
+    surname, 
+    true
+  );
+  if (respons) {
+    console.log(respons);
+    alert(`${respons.data.name},вы успешно зарегестрированы!`);
+    const { client_id, invited_by, name, phone, surname } = respons.data,
+      { email, is_active } = respons.data.user;
+    dispatch(
+      actions.setAuthUserData(
+        client_id,
+        invited_by,
+        name,
+        phone,
+        surname,
+        email,
+        is_active,
+        true
+      )
+    );
+  } else {
+    dispatch(stopSubmit("signup", { _error: respons }));
+  }
+};
+export const loginUser = (email:string ,password:string):ThunkActionType=> 
     async(dispatch,getState) =>{
-        let respons = await userAPI.getAuthLogin(email,password,rememberMe,captcha);
-            if(respons.resultCode === ResultCodeEnum.Success){
-                dispatch(setAuthUser());
+        const respons = await authAPI.getAuthLogin( email,
+            password,
+            );
+            console.log(respons)
+           /* if(respons){
+                alert("Всё збс!")
+                //dispatch(setAuthUser());
             } else{
-                if(respons.resultCode === ResultCodeEnum.Captcha){
-                    dispatch(getCaptchaUrl());
-                }
-                dispatch(stopSubmit('login',{_error:respons.messages[0]}));
-            }
+                
+                //dispatch(stopSubmit('login',{_error:respons.messages[0]}));
+            }*/
 }
-export const logOut = ():ThunkActionType =>async(dispatch,getState) =>{
-    let data = await userAPI.logout();
-    if(data.resultCode === ResultCodeEnum.Success){
+
+/*export const logOut = ():ThunkActionType =>async(dispatch,getState) =>{
+    let data = await authAPI.logout();
+    if(data.resultCode === 200){
         dispatch(actions.setAuthUserData(null,null,null,false));
     }
-}
-export const getCaptchaUrl = ():ThunkActionType => async(dispatch,getState) =>{
-    const respons = await securityAPI.getCaptcha()
-    const captchaUrl = respons.url
-    dispatch(actions.getCaptchaSuccess(captchaUrl))
-}
+}*/
 export default authReducer
-/*type SetAuthUserDataActionTypePayload={
-    userId:number | null
-    login:string | null
-    email:string | null
-    isAuth:boolean
-}
-type SetAuthUserDataActionType={
-    type: typeof SET_USER_DATA,
-    payload:SetAuthUserDataActionTypePayload
-}
-type GetCaptchaSuccessActionType={
-    type: typeof GET_CAPTCHS_SUCCESS
-    payload:{captchaUrl:string}
-}*/
-/*export const loginUser = (email,password,rememberMe) =>{
-    return (dispatch) =>{
-        //alert(rememberMe)
-        userAPI.getAuthLogin(email,password,rememberMe).then(data =>{ 
-            if(data.data.resultCode === 0){
-                dispatch(setAuthUser());
-            } else{
-                dispatch(stopSubmit('login',{_error:data.data.messages[0]}));
-            }
-        })
-    }   
-}*/
-/*const SET_USER_DATA='auth/SET_USER_DATA'
-const GET_CAPTCHS_SUCCESS='auth/GET_CAPTCHS_SUCCESS'
-
-export type initionalStateType ={
-    userId:number | null
-    login:string | null
-    email:string | null
-    isFetching:boolean
-    isAuth:boolean
-    captchaUrl:string| null
-}*/

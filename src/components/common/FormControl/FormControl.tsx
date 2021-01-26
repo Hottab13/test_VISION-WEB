@@ -2,16 +2,13 @@ import { FiledValidatoeType } from '../../utils/validators';
 import React from "react";
 import { Field, WrappedFieldMetaProps, WrappedFieldProps } from "redux-form";
 import styles from "./FormControl.module.css"
+import { Form}   from "antd"
 
+const FormItem = Form .Item;
 
 type FormControlPropsType={
     meta:WrappedFieldMetaProps
-   /* {
-        touched:boolean
-        error:string
-    }*/
 }
-//type FormControlType=(params:FormControlParamsType)=>React.ReactNode
 const FormControl:React.FC<FormControlPropsType> =({meta:{touched,error},children})=>{
     const hasError = error && touched
     return(
@@ -46,5 +43,21 @@ export function createField<FormKeysType extends string>(placeholder:string| und
         validate={validate}
         {...props}/>{text}
 </div>}
+
+//@ts-ignore
+export const makeField = (Component:any) => ({input, meta,children,hasFeedback,label,...rest
+}) => {
+  const hasError = meta.touched && meta.invalid;
+  return (
+    <FormItem
+      label={label}
+      validateStatus={hasError ? "error" : "success"}
+      hasFeedback={hasFeedback && hasError}
+      help={hasError && meta.error}
+    >
+      <Component {...input} {...rest} children={children} />
+    </FormItem>
+  );
+};
 
 export type  GetStringType<T> = Extract< keyof T,string>
